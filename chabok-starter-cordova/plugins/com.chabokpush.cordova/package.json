@@ -1,0 +1,19 @@
+{
+  "name": "com.chabokpush.cordova",
+  "version": "0.0.1",
+  "description": "ChabokPush Realtime messaging",
+  "cordova": {
+    "id": "com.chabokpush.cordova",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Chabok Realtime Solutions",
+  "license": "ISC"
+}
