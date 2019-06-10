@@ -10,7 +10,7 @@
   "com.chabokpush.cordova": {
     "source": {
       "type": "local",
-      "path": "/Users/husseinhj/Documents/cordova/chabok-cordova/chabok-starter-cordova/node_modules/com.chabokpush.cordova"
+      "path": "/Users/husseinhj/Documents/cordova/adp-push-client-cordova/chabok-starter-cordova/node_modules/com.chabokpush.cordova"
     },
     "is_top_level": true,
     "variables": {}

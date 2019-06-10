@@ -20,6 +20,32 @@
                 <param name="ios-package" value="ChabokPush"/>
             </feature>
         </config-file>
+
         <source-file src="src/ios/ChabokPush.m"/>
+        <source-file src="src/ios/AppDelegate+ChabokPush.m" />
+
+        <header-file src="src/ios/AppDelegate+ChabokPush.h" />
+
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+            <array>
+                <string>remote-notification</string>
+            </array>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="NSAppTransportSecurity">
+            <dict>
+                <key>NSAllowsArbitraryLoads</key>
+                <true/>
+            </dict>
+        </config-file>
+
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git"/>
+            </config>
+            <pods use-frameworks="true">
+                <pod name="ChabokPush" spec="~> 1.19.0"/>
+            </pods>
+        </podspec>
     </platform>
 </plugin>

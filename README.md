@@ -15,6 +15,12 @@ Installing "com.chabokpush.cordova" for android
 Installing "com.chabokpush.cordova" for ios
 ```
 
+## Remove
+
+```
+cordova plugin remove com.chabokpush.cordova 
+```
+
 # Run
 
 iOS:
