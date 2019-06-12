@@ -1,76 +1,90 @@
-var exec = require('cordova/exec');
 
-const bridgeName = 'ChabokPush';
+const  bridgeName = 'ChabokPush';
 
-exports.init = function (options, success, error) {
+var ChabokPush = function () {}
+
+
+ChabokPush.prototype.init = function (options, success, error) {
     var params = Array.from(Object.values(options), k => k);
-    exec(success, error, bridgeName, 'init', params);
+    cordova.exec(success, error, bridgeName, 'init', params);
 };
 
-exports.registerAsGuest = function (success, error) {
-    exec(success, error, bridgeName, 'registerAsGuest');
+ChabokPush.prototype.registerAsGuest = function (success, error) {
+    cordova.exec(success, error, bridgeName, 'registerAsGuest');
 };
 
-exports.register = function (userId, success, error) {
-    exec(success, error, bridgeName, 'register', [userId]);
+ChabokPush.prototype.register = function (userId, success, error) {
+    cordova.exec(success, error, bridgeName, 'register', [userId]);
 };
 
-exports.unregister = function () {
-    exec(function () {
+ChabokPush.prototype.unregister = function () {
+    cordova.exec(function () {
     }, function () {
     }, bridgeName, 'unregister', []);
 };
 
-exports.addTag = function (tagName, success, error) {
-    exec(success, error, bridgeName, 'addTag', [tagName]);
+ChabokPush.prototype.addTag = function (tagName, success, error) {
+    cordova.exec(success, error, bridgeName, 'addTag', [tagName]);
 };
 
-exports.removeTag = function (tagName, success, error) {
-    exec(success, error, bridgeName, 'removeTag', [tagName]);
+ChabokPush.prototype.removeTag = function (tagName, success, error) {
+    cordova.exec(success, error, bridgeName, 'removeTag', [tagName]);
 };
 
-exports.appWillOpenUrl = function (url) {
-    exec(function () {
+ChabokPush.prototype.appWillOpenUrl = function (url) {
+    cordova.exec(function () {
     }, function () {
     }, bridgeName, 'appWillOpenUrl', [url]);
 };
 
-exports.getUserInfo = function (success, error) {
-    exec(success, error, bridgeName, 'getUserInfo', []);
+ChabokPush.prototype.getUserInfo = function (success, error) {
+    cordova.exec(success, error, bridgeName, 'getUserInfo', []);
 };
 
-exports.setUserInfo = function (userInfo) {
-    exec(function () {
+ChabokPush.prototype.setUserInfo = function (userInfo) {
+    cordova.exec(function () {
     }, function () {
     }, bridgeName, 'setUserInfo', [userInfo]);
 };
 
-exports.setDefaultTracker = function (trackerName) {
-    exec(function () {
+ChabokPush.prototype.setDefaultTracker = function (trackerName) {
+    cordova.exec(function () {
     }, function () {
     }, bridgeName, 'setDefaultTracker', [trackerName]);
 };
 
-exports.track = function (trackName, data) {
-    exec(function () {
+ChabokPush.prototype.track = function (trackName, data) {
+    cordova.exec(function () {
     }, function () {
     }, bridgeName, 'track', [trackName, data]);
 };
 
-exports.resetBadge = function () {
-    exec(function () {
+ChabokPush.prototype.resetBadge = function () {
+    cordova.exec(function () {
     }, function () {
     }, bridgeName, 'resetBadge', []);
 };
 
-exports.publish = function (message, success, error) {
-    exec(success, error, bridgeName, 'publish', [message]);
+ChabokPush.prototype.publish = function (message, success, error) {
+    cordova.exec(success, error, bridgeName, 'publish', [message]);
 };
 
-exports.getUserId = function (success, error) {
-    exec(success, error, bridgeName, 'getUserId', []);
+ChabokPush.prototype.getUserId = function (success, error) {
+    cordova.exec(success, error, bridgeName, 'getUserId', []);
 };
 
-exports.getInstallationId = function (success, error) {
-    exec(success, error, bridgeName, 'getInstallationId', []);
+ChabokPush.prototype.getInstallationId = function (success, error) {
+    cordova.exec(success, error, bridgeName, 'getInstallationId', []);
 };
+
+
+//-------------------------------------------------------------------
+
+if(!window.plugins)
+    window.plugins = {};
+
+if (!window.plugins.OneSignal)
+    window.plugins.ChabokPush = new ChabokPush();
+
+if (typeof module != 'undefined' && module.exports)
+    module.exports = ChabokPush;

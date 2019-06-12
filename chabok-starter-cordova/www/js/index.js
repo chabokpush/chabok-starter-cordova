@@ -29,46 +29,48 @@ var app = {
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
 
+        const chabok = new ChabokPush();
+
         console.log('------------------');
 
-        console.log('cordova.plugins = ', JSON.stringify(cordova.plugins.ChabokPush));
+        console.log('cordova.plugins = ', JSON.stringify(chabok));
 
         let options = {
-            appId: 'APP_ID/SENDER_ID',
-            apiKey: 'API_KEY',
-            username: 'USERNAME',
-            password: 'PASSWORD',
-            devMode: DEV_MODE
+            appId: 'adp-nms-push/845225163503',
+            apiKey: 'e2100f0d7e071c7450f04e530bda746da2fc493b',
+            username: 'adp',
+            password: 'test',
+            devMode: true
         }
         console.log('----- options = ', options);
 
-        cordova.plugins.ChabokPush.init(options, function (s) {
+        chabok.init(options, function (s) {
             console.log('Initialize successfully. s = ' + s);
         }, function (err) {
             console.error('Could not initialize = ' + err);
         });
 
-        cordova.plugins.ChabokPush.getUserId((userId)=>{
+        chabok.getUserId((userId)=>{
             console.log('-- Call register method');
-            cordova.plugins.ChabokPush.register(userId, function (s){
+            chabok.register(userId, function (s){
                 console.log('Registered user successfully, s = ' + s);
 
-                cordova.plugins.ChabokPush.track('registerAgain', {id: 123});
+                chabok.track('registerAgain', {id: 123});
                 //
-                cordova.plugins.ChabokPush.addTag('CORDOVA-AGAIN');
+                chabok.addTag('CORDOVA-AGAIN');
                 //
-                cordova.plugins.ChabokPush.setUserInfo({firstName: 'Hussein'});
+                chabok.setUserInfo({firstName: 'Hussein'});
             }, function (e){
                 console.error('Fail to register user = ' + JSON.stringify(e));
             });
         }, function (error) {
-            cordova.plugins.ChabokPush.registerAsGuest(function(s){
+            chabok.registerAsGuest(function(s){
                 console.log('------------------ Registered successfully, s = ' + s);
 
-                cordova.plugins.ChabokPush.track('guestUser', {id: 123});
-                cordova.plugins.ChabokPush.addTag('CORDOVA');
+                chabok.track('guestUser', {id: 123});
+                chabok.addTag('CORDOVA');
                 //
-                cordova.plugins.ChabokPush.setUserInfo({firstName: 'Hussein'});
+                chabok.setUserInfo({firstName: 'Hussein'});
             }, function(e){
                 console.error('----------------- Fail to register = ' + e);
             });

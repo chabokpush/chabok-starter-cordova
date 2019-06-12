@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
     <name>ChabokPush</name>
     <js-module name="ChabokPush" src="www/ChabokPush.js">
-        <clobbers target="cordova.plugins.ChabokPush"/>
+        <clobbers target="ChabokPush"/>
     </js-module>
     <platform name="android">
         <framework src="me.leolin:ShortcutBadger:1.1.22@aar" />
