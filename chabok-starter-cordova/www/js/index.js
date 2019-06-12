@@ -43,33 +43,34 @@ var app = {
         console.log('----- options = ', options);
 
         cordova.plugins.ChabokPush.init(options, function (s) {
-            console.log('Initialize successfully.');
+            console.log('Initialize successfully. s = ' + s);
         }, function (err) {
-            console.error('Could not initialize = ', err);
+            console.error('Could not initialize = ' + err);
         });
 
         cordova.plugins.ChabokPush.getUserId((userId)=>{
-            cordova.plugins.ChabokPush.register(userId, (s)=>{
-                console.log('Registered user successfully');
+            console.log('-- Call register method');
+            cordova.plugins.ChabokPush.register(userId, function (s){
+                console.log('Registered user successfully, s = ' + s);
 
                 cordova.plugins.ChabokPush.track('registerAgain', {id: 123});
-
+                //
                 cordova.plugins.ChabokPush.addTag('CORDOVA-AGAIN');
-
+                //
                 cordova.plugins.ChabokPush.setUserInfo({firstName: 'Hussein'});
-            },(e)=>{
-                console.error('Fail to register user = ', e);
+            }, function (e){
+                console.error('Fail to register user = ' + JSON.stringify(e));
             });
-        }, (error) => {
-            cordova.plugins.ChabokPush.registerAsGuest((s)=>{
-                console.log('------------------ Registered successfully');
+        }, function (error) {
+            cordova.plugins.ChabokPush.registerAsGuest(function(s){
+                console.log('------------------ Registered successfully, s = ' + s);
 
                 cordova.plugins.ChabokPush.track('guestUser', {id: 123});
                 cordova.plugins.ChabokPush.addTag('CORDOVA');
-
+                //
                 cordova.plugins.ChabokPush.setUserInfo({firstName: 'Hussein'});
-            },(e)=>{
-                console.error('----------------- Fail to register = ', e);
+            }, function(e){
+                console.error('----------------- Fail to register = ' + e);
             });
         })
     },
