@@ -6,6 +6,18 @@
         <clobbers target="cordova.plugins.ChabokPush"/>
     </js-module>
     <platform name="android">
+        <framework src="me.leolin:ShortcutBadger:1.1.22@aar" />
+        <!--<framework src="com.adpdigital.push:chabok-lib:2.16.0" />-->
+        <framework src="com.google.android.gms:play-services-gcm:10.2.6" />
+        <framework src="com.android.installreferrer:installreferrer:1.0" />
+
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+
+        <!--<resource-file src="src/android/libs/chabok-lib-2.16.0.aar" target="src/android/libs" />-->
+        <source-file framework="true"
+                     src="src/android/libs/chabok-lib-2.16.0.aar"
+                     target-dir="libs"/>
+
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="ChabokPush">
                 <param name="android-package" value="com.chabokpush.cordova.ChabokPush"/>
@@ -13,6 +25,30 @@
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"/>
         <source-file src="src/android/ChabokPush.java" target-dir="src/com/chabokpush/cordova/ChabokPush"/>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data android:name="com.adpdigital.push.client.PlatformType" android:value="cordova" />
+            <receiver
+                    android:name="com.google.android.gms.gcm.GcmReceiver"
+                    android:enabled="true"
+                    android:exported="true"
+                    android:permission="com.google.android.c2dm.permission.SEND">
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </receiver>
+            <receiver
+                    android:name="com.adpdigital.push.ChabokReferrerReceiver"
+                    android:permission="android.permission.INSTALL_PACKAGES"
+                    android:exported="true">
+                <intent-filter>
+                    <action android:name="com.android.vending.INSTALL_REFERRER" />
+                </intent-filter>
+            </receiver>
+        </config-file>
+
     </platform>
     <platform name="ios">
         <config-file parent="/*" target="config.xml">
