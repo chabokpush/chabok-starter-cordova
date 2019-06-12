@@ -13,4 +13,17 @@ cordova plugin add ../ChabokPush
 echo "\n✅✅ Added ChabokPush plugin\n"
 
 echo "\n👟👟\n\nRunning Application.\n"
-cordova emulate ios --target="iPhone-6s, 12.2"
+if [[ $1 == "android" ]]; then
+
+    if [[ $2 == "-d" ]]; then
+        cordova run android --device
+    else
+        cordova emulate android
+    fi
+else
+    if [[ $2 == "-d" ]]; then
+        cordova run ios --device
+    else
+        cordova emulate ios --target="iPhone-6s, 12.2"
+    fi
+fi
