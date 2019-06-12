@@ -11,8 +11,8 @@ exports.registerAsGuest = function (success, error) {
     exec(success, error, bridgeName, 'registerAsGuest');
 };
 
-exports.register = function (userName, success, error) {
-    exec(success, error, bridgeName, 'register', [userName]);
+exports.register = function (userId, success, error) {
+    exec(success, error, bridgeName, 'register', [userId]);
 };
 
 exports.unregister = function () {
