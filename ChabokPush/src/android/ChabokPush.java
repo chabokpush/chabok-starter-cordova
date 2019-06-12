@@ -37,11 +37,7 @@ public class ChabokPush extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         android.util.Log.d(TAG, "----------- execute: action = " + action + " , args = " + args);
 
-        if (action.equals("coolMethod")) {
-            String message = args.getString(0);
-            this.coolMethod(message, callbackContext);
-            return true;
-        } else if (action.equals("init")){
+        if (action.equals("init")){
             String appId = args.getString(0);
             String apiKey = args.getString(1);
             String username = args.getString(2);
@@ -102,14 +98,6 @@ public class ChabokPush extends CordovaPlugin {
             return true;
         }
         return false;
-    }
-
-    private void coolMethod(String message, CallbackContext callbackContext) {
-        if (message != null && message.length() > 0) {
-            callbackContext.success(message);
-        } else {
-            callbackContext.error("Expected one non-empty string argument.");
-        }
     }
 
     public void init(String appId, String apiKey, String username, String password,
