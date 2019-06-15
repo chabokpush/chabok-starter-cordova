@@ -31,7 +31,9 @@ import java.util.Map;
 public class ChabokPush extends CordovaPlugin {
 
     private static final String TAG = "CHK";
+    private CallbackContext onMessageCallbackContext;
     private CallbackContext onRegisterCallbackContext;
+    private CallbackContext onConnectionStatusCallbackContext;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -95,6 +97,12 @@ public class ChabokPush extends CordovaPlugin {
             JSONObject data = args.getJSONObject(1);
 
             track(trackName, data);
+            return true;
+        } else if (action.equals("setOnMessageCallback")){
+            this.setOnMessageCallbackContext(callbackContext);
+            return true;
+        } else if (action.equals("setOnConnectionStatusCallback")){
+            this.setOnConnectionStatusCallbackContext(callbackContext);
             return true;
         }
         return false;
@@ -279,6 +287,14 @@ public class ChabokPush extends CordovaPlugin {
         AdpPushClient.get().resetBadge();
     }
 
+    public void setOnMessageCallbackContext(CallbackContext callbackContext){
+        this.onMessageCallbackContext = callbackContext;
+    }
+
+    public void setOnConnectionStatusCallbackContext(CallbackContext callbackContext){
+        this.onConnectionStatusCallbackContext = callbackContext;
+    }
+
     public void onEvent(AppState state){
         android.util.Log.d(TAG, "=================== onEvent: state = " + state + ", this.onRegisterCallbackContext = " + this.onRegisterCallbackContext);
         if (state == AppState.REGISTERED){
@@ -297,6 +313,80 @@ public class ChabokPush extends CordovaPlugin {
             }
 
         }
+    }
+
+    public void onEvent(final ConnectionStatus status) {
+        String connectionStatus = null;
+
+        switch (status) {
+            case CONNECTED:
+                android.util.Log.d(TAG, "Connected to the chabok");
+                connectionStatus = "CONNECTED";
+                break;
+            case CONNECTING:
+                android.util.Log.d(TAG, "Connecting to the chabok");
+                connectionStatus = "CONNECTING";
+                break;
+            case DISCONNECTED:
+                android.util.Log.d(TAG, "Disconnected");
+                connectionStatus = "DISCONNECTED";
+                break;
+            case NOT_INITIALIZED:
+                android.util.Log.d(TAG, "NOT_INITIALIZED");
+                connectionStatus = "NOT_INITIALIZED";
+                break;
+            case SOCKET_TIMEOUT:
+                android.util.Log.d(TAG, "SOCKET_TIMEOUT");
+                connectionStatus = "SOCKET_TIMEOUT";
+                break;
+            default:
+                android.util.Log.d(TAG, "Disconnected");
+                connectionStatus = "DISCONNECTED";
+        }
+
+        if (connectionStatus != null && this.onConnectionStatusCallbackContext != null){
+            successCallback(this.onConnectionStatusCallbackContext, connectionStatus);
+        }
+    }
+
+    public void onEvent(final PushMessage msg) {
+        final CallbackContext callbackContext = this.onMessageCallbackContext;
+
+        this.cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                JSONObject message = new JSONObject();
+
+                try {
+                    message.put("id", msg.getId());
+                    message.put("body", msg.getBody());
+                    message.put("sound", msg.getSound());
+                    message.put("sentId", msg.getSentId());
+                    message.put("channel", msg.getChannel());
+                    message.put("senderId", msg.getSenderId());
+                    message.put("expireAt", msg.getExpireAt());
+                    message.put("alertText", msg.getAlertText());
+                    message.put("createdAt", msg.getCreatedAt());
+                    message.put("alertTitle", msg.getAlertTitle());
+                    message.put("intentType", msg.getIntentType());
+                    message.put("receivedAt", msg.getReceivedAt());
+
+                    if (msg.getData() != null) {
+                        message.put("data", msg.getData());
+                    }
+
+                    if (msg.getNotification() != null) {
+                        message.put("notification", msg.getNotification());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (message != null && callbackContext != null) {
+                    successCallback(callbackContext, message);
+                }
+            }
+        });
     }
 
     public void successCallback(CallbackContext callbackContext, String message){

@@ -77,6 +77,14 @@ ChabokPush.prototype.getInstallationId = function (success, error) {
     cordova.exec(success, error, bridgeName, 'getInstallationId', []);
 };
 
+ChabokPush.prototype.setOnMessageCallback = function (oneMessage) {
+    cordova.exec(oneMessage, function () {}, bridgeName, 'setOnMessageCallback', []);
+};
+
+ChabokPush.prototype.setOnConnectionStatusCallback = function (onConnection) {
+    cordova.exec(onConnection, function () {}, bridgeName, 'setOnConnectionStatusCallback', []);
+};
+
 
 //-------------------------------------------------------------------
 
