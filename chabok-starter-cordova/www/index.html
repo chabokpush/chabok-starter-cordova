@@ -28,21 +28,73 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">-->
+        <!--<meta name="format-detection" content="telephone=no">-->
+        <!--<meta name="msapplication-tap-highlight" content="no">-->
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <!--<link rel="stylesheet" type="text/css" href="css/index.css">-->
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+        <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
         <title>Hello World</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+    <ons-navigator swipeable id="myNavigator" page="home.html"></ons-navigator>
+
+    <template id="home.html">
+        <ons-page id="home">
+
+            <div style="margin-left:10px">
+                <div style="text-align: center; margin-top:10px" id="lblConnectionStatus">Disconnected </div>
+                <p>
+                    <ons-input id="txtUserId"
+                               modifier="underbar"
+                               placeholder="userId"
+                               style="width:95%">
+                    </ons-input>
+                </p>
+                <ons-button id="btnRegister">Register</ons-button>
+                <ons-button id="btnUnregister">Unregister</ons-button>
+
+                <!-- Userinfo -->
+
+                <p>
+                    <ons-input id="txtFirstname" style="width:80px" modifier="underbar" placeholder="first name">
+                    </ons-input>
+                    <ons-input id="txtLastname" style="width:80px" modifier="underbar" placeholder="last name">
+                    </ons-input>
+                    <ons-input id="txtGender" style="width:80px" modifier="underbar" placeholder="gender">
+                    </ons-input>
+                </p>
+                <p>
+                    <ons-button id="btnSetUserInfo">SetUserInfo</ons-button>
+                </p>
+
+                <!-- Tag -->
+                <p>
+                    <ons-input id="txtTagName" style="width:95%" modifier="underbar" placeholder="tag name">
+                    </ons-input>
+                </p>
+                <p>
+                    <ons-button id="btnAddTag">AddTag</ons-button>
+                    <ons-button id="btnRemoveTag">RemoveTag</ons-button>
+                </p>
+
+                <!-- Track -->
+                <p>
+                    <ons-button id="btnAddToCard">AddToCard</ons-button>
+                    <ons-button id="btnPurchase">Purchase</ons-button>
+                    <ons-button id="btnLike">Like</ons-button>
+                    <ons-button id="btnComment">Comment</ons-button>
+                </p>
+
+                <div>Message log:</div>
+                <p id="lstMessageLog" style="background-color: lightGray"></p>
             </div>
-        </div>
+
+        </ons-page>
+    </template>
+
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>
